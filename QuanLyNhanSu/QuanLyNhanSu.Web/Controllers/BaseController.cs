@@ -8,11 +8,13 @@ using System.Web.Routing;
 
 namespace QuanLyNhanSu.Web.Controllers
 {
+    //Kiểm tra user đã đăng nhập hay chưa
     public class BaseController : Controller
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var session = (UserLogin)Session[CommonConstants.USER_SESSION];
+            //Nếu session = null thì sẽ quay lại trang Login
             if (session == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new

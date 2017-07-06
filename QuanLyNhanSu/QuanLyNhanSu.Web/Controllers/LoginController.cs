@@ -15,19 +15,23 @@ namespace QuanLyNhanSu.Web.Controllers
         {
             return View();
         }
-        //Đăng nhập có validate
+        //Đăng nhập có validate login
         public ActionResult Login(LoginViewModel model)
         {
             if(ModelState.IsValid)
             {
                 var dao = new UserDao();
+                //gọi Login trong UserDao để xử lý tài khoản và mật khẩu
+                //Đồng thời mã hóa mật khẩu
                 var result = dao.Login(model.UserName, Encryptor.MD5Hash(model.Password));
+                //result == 1 đăng nhập đúng chuyển đến trang trủ
                 if (result==1)
                 {
                     var user = dao.GetById(model.UserName);
                     var userSession = new UserLogin();
                     userSession.UserName = user.UserName;
                     userSession.UserID = user.ID;
+                    //gán session
                     Session.Add(CommonConstants.USER_SESSION, userSession);
                     return RedirectToAction("Index", "Home");
                 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    // Session sẽ chứa những thuộc tính này
     [Serializable]
     public class UserLogin
     {

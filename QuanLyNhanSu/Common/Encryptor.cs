@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Common
 {
+    //Mã hóa mật khẩu dạng MD5
     public static class Encryptor
     {
         public static string MD5Hash(string text)

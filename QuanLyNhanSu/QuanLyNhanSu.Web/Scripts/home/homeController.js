@@ -8,12 +8,60 @@ var homeController = {
         homeController.registerEvent();
     },
     registerEvent: function () {
+        $('#frmSaveData').validate({
+            rules: {
+                txtName: {
+                    required: true,
+                    minlength: 2
+                },
+                txtEmail: {
+                    required: true,
+                    email: true                   
+                },
+                txtTel: {
+                    required: true,
+                    maxlength: 14
+                },
+                txtUserName: {
+                    required: true,
+                    minlength: 2
+                },
+                txtPassword: {
+                    required: true,
+                    minlength: 5
+                }
+            },
+            messages: {
+                txtName: {
+                    required: "Vui lòng nhập tên.",
+                    minlength: "Tên của bạn phải gồm ít nhất 2 ký tự."
+                },
+                txtEmail: {
+                    required: "Vui lòng nhập Email.",
+                    email: "Vui lòng nhập địa chỉ email hợp lệ."
+                },
+                txtTel: {
+                    required: "Vui lòng nhập số điện thoại.",
+                    maxlength: "Vui lòng nhập không quá 14 ký tự."
+                },
+                txtUserName: {
+                    required: "Vui lòng nhập tên tài khoản.",
+                    minlength: "Tên của bạn phải gồm ít nhất 2 ký tự."
+                },
+                txtPassword: {
+                    required: "Vui lòng nhập mật khẩu.",
+                    minlength: "Tên của bạn phải gồm ít nhất 5 ký tự."
+                }
+            }
+        });
         $('#btnAddNew').off('click').on('click', function () {
             $('#modalAddUpdate').modal('show');
             homeController.resetForm();
         });
         $('#btnSave').off('click').on('click', function () {
-            homeController.saveData();
+            if ($('#frmSaveData').valid()) {
+                homeController.saveData();
+            }
         });
         $('.btnEdit').off('click').on('click', function () {
             $('#modalAddUpdate').modal('show');
@@ -22,9 +70,22 @@ var homeController = {
         });
         $('.btnDelete').off('click').on('click', function () {
             var id = $(this).data('id');
-            bootbox.confirm("Are you sure to delete this user?", function (result) {
-                homeController.deleteUser(id);
-                setTimeout(homeController.loadData(true), 100);
+            bootbox.dialog({
+                message: "Bạn có chắc chắn xóa người dùng này không?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success',
+                        callback: function () {
+                            homeController.deleteUser(id);
+                            homeController.loadData(true);
+                        }
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                }
             });
         });
         $('#btnSearch').off('click').on('click', function () {
@@ -56,7 +117,7 @@ var homeController = {
                     $('#ckStatus').prop('checked', data.Status);
                 }
                 else {
-                    bootbox.alert("Load failed!");  
+                    bootbox.alert("Tải không thành công!");
                 }
             },
             error: function (err) {
@@ -72,7 +133,7 @@ var homeController = {
         var password = $('#txtPassword').val();
         var status = $('#ckStatus').prop('checked');
         var id = parseInt($('#hidID').val());
-        var employee= {
+        var employee = {
             Name: name,
             Email: email,
             Phone: tel,
@@ -90,13 +151,13 @@ var homeController = {
             dataType: 'json',
             success: function (response) {
                 if (response.status == true) {
-                    bootbox.alert("Save success", function () {
+                    bootbox.alert("Lưu thành công", function () {
                         $('#modalAddUpdate').modal('hide');
                         homeController.loadData(true);
-                    });                 
+                    });
                 }
                 else {
-                    bootbox.alert("Save failed!");  
+                    bootbox.alert("Lưu không thành công!");
                 }
             },
             error: function (err) {
@@ -104,7 +165,7 @@ var homeController = {
             }
         })
     },
-    
+
     resetForm: function () {
         $('#hidID').val('0');
         $('#txtName').val('');
@@ -122,14 +183,15 @@ var homeController = {
                 id: id
             },
             dataType: 'json',
-            success: function () {
+            success: function (response) {
                 if (response.status) {
-                    bootbox.alert("Delete success", function () {
+                    bootbox.alert("Xóa thành công", function () {
                         homeController.loadData(true);
-                    });   
+                    });
+                    homeController.loadData(true)
                 }
                 else {
-                    bootbox.alert("Delete failed!");
+                    bootbox.alert("Xóa không thành công!");
                 }
             },
             error: function (err) {
@@ -137,6 +199,7 @@ var homeController = {
             }
         });
     },
+    //load dữ liệu trê
     loadData: function (changePageSize) {
         var keyword = $('#txtKeyword').val();
         $.ajax({
@@ -151,6 +214,9 @@ var homeController = {
             success: function (response) {
                 if (response.status) {
                     var data = response.data;
+                    if (data.length == 0) {
+                        bootbox.alert("Không tìm thấy người dùng thích hợp!");
+                    }
                     var html = '';
                     var template = $('#data-template').html();
                     $.each(data, function (i, item) {
@@ -169,13 +235,10 @@ var homeController = {
                     }, changePageSize);
                     homeController.registerEvent();
                 }
-                else
-                {
-                    bootbox.alert("Search failed!");
-                }
-            }    
+            }
         })
     },
+    //phân trang
     paging: function (totalRow, callback, changePageSize) {
         var totalPage = Math.ceil(totalRow / homeconfig.pageSize);
 

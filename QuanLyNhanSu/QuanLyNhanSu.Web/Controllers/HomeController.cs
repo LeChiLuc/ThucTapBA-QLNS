@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 
 namespace QuanLyNhanSu.Web.Controllers
 {
+    //HomeController được kế thừa BaseController để đảm bảo user đã được đăng nhập hay chưa
     public class HomeController : BaseController
     {
         //Khởi tạo đối tượng data
@@ -41,6 +42,7 @@ namespace QuanLyNhanSu.Web.Controllers
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }
+        //Tìm bản ghi có id là:
         [HttpGet]
         public JsonResult GetDetail(int id)
         {
@@ -51,6 +53,7 @@ namespace QuanLyNhanSu.Web.Controllers
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }
+        //SaveData bao gồm cả thêm mới và cập nhật bản ghi
         [HttpPost]
         public JsonResult SaveData(string strEmployee)
         {
@@ -78,7 +81,7 @@ namespace QuanLyNhanSu.Web.Controllers
             }
             else
             {
-                //cập nhật người dùng vào data
+                //cập nhật người dùng vào data nếu id # 0
                 var encryptedMd5Pas = Encryptor.MD5Hash(user.Password);              
                 var entity = _db.Users.Find(user.ID);
                 entity.Password = encryptedMd5Pas;
@@ -105,6 +108,7 @@ namespace QuanLyNhanSu.Web.Controllers
                 message = message
             }, JsonRequestBehavior.AllowGet);
         }
+        //Xóa bản ghi
         [HttpPost]
         public JsonResult Delete(int id)
         {
