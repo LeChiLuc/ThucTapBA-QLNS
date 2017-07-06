@@ -1,0 +1,5 @@
+D:\BinhAnh\_Project\QuanLyNhanSu\Common\bin\Debug\Common.dll
+D:\BinhAnh\_Project\QuanLyNhanSu\Common\bin\Debug\Common.pdb
+D:\BinhAnh\_Project\QuanLyNhanSu\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+D:\BinhAnh\_Project\QuanLyNhanSu\Common\obj\Debug\Common.dll
+D:\BinhAnh\_Project\QuanLyNhanSu\Common\obj\Debug\Common.pdb
