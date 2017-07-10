@@ -4,7 +4,7 @@
 }
 var homeController = {
     init: function () {
-        homeController.loadData();
+        homeController.loadData(true);
         homeController.registerEvent();
     },
     registerEvent: function () {
@@ -95,6 +95,9 @@ var homeController = {
             if (e.which == 13) {
                 homeController.loadData(true);
             }
+        });
+        $(function () {
+            $(".datepicker").datepicker();
         });
     },
     loadDetail: function (id) {
@@ -199,13 +202,17 @@ var homeController = {
             }
         });
     },
-    //load dữ liệu trê
+
     loadData: function (changePageSize) {
         var keyword = $('#txtKeyword').val();
+        var fromDate = $('#fromDate').val();
+        var toDate = $('#toDate').val();
         $.ajax({
             url: '/Home/LoadData',
             type: 'GET',
             data: {
+                fromDate: fromDate,
+                toDate: toDate,
                 keyword: keyword,
                 page: homeconfig.pageIndex,
                 pageSize: homeconfig.pageSize
@@ -226,6 +233,7 @@ var homeController = {
                             Email: item.Email,
                             UserName: item.UserName,
                             Phone: item.Phone,
+                            CreatedDate: homeController.formatDatetime(item.CreatedDate),
                             Status: item.Status == true ? "<span class=\"label label-success\">Actived</span>" : "<span class=\"label label-danger\">Locked</span>"
                         });
                     });
@@ -261,6 +269,13 @@ var homeController = {
                 setTimeout(callback, 200);
             }
         });
+    },
+
+    formatDatetime: function (jsonDt) {
+        var MIN_DATE = -62135578800000; // const
+
+        var date = new Date(parseInt(jsonDt.substr(6, jsonDt.length - 8)));
+        return date.toString() == new Date(MIN_DATE).toString() ? "" : date.getDate() + "/" + (date.getMonth() + 1) + "//" + date.getFullYear(); 
     }
 }
 homeController.init();

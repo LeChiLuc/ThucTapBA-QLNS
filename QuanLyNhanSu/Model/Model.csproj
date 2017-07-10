@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\GetKeywordDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
     <Compile Include="EF\User.cs" />
     <Compile Include="Migrations\201707050245015_CreatedDb.cs" />
@@ -64,6 +65,10 @@
     <Compile Include="Migrations\201707050832397_addCreatedDate.cs" />
     <Compile Include="Migrations\201707050832397_addCreatedDate.Designer.cs">
       <DependentUpon>201707050832397_addCreatedDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707070806222_sp_Search.cs" />
+    <Compile Include="Migrations\201707070806222_sp_Search.Designer.cs">
+      <DependentUpon>201707070806222_sp_Search.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707050832397_addCreatedDate.resx">
       <DependentUpon>201707050832397_addCreatedDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707070806222_sp_Search.resx">
+      <DependentUpon>201707070806222_sp_Search.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

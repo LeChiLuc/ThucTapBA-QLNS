@@ -159,6 +159,7 @@
   <ItemGroup>
     <Content Include="Assets\css\font-awesome.css" />
     <Content Include="Assets\css\font-awesome.min.css" />
+    <Content Include="Assets\css\jquery-ui.min.css" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -188,6 +189,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\plugins\bootbox.min.js" />
+    <Content Include="Scripts\plugins\date.js" />
+    <Content Include="Scripts\plugins\jquery-ui.min.js" />
     <Content Include="Scripts\plugins\jquery.twbsPagination.min.js" />
     <Content Include="Scripts\plugins\mustache.min.js" />
     <Content Include="Scripts\respond.js" />

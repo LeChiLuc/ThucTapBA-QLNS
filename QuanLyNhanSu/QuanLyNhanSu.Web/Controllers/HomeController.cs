@@ -1,5 +1,6 @@
 ﻿using Common;
 using Model;
+using Model.Dao;
 using Model.EF;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,18 @@ namespace QuanLyNhanSu.Web.Controllers
         }
         //Hiển thị dữ liệu trên table đồng thời phân trang
         [HttpGet]
-        public JsonResult LoadData(string keyword,int page, int pageSize=3)
+        public JsonResult LoadData(string keyword,string fromDate,string toDate,int page, int pageSize=3)
         {
-            IQueryable<User> model = _db.Users;
-            if (!string.IsNullOrEmpty(keyword))
+            IEnumerable<User> model = _db.Users;
+            var dao = new GetKeywordDao();
+            if(keyword.Count()>0)
             {
-                model = model.Where(x => x.Name.Contains(keyword));
+                model = dao.GetKeyword(keyword);
             }
+            //if (!string.IsNullOrEmpty(keyword))
+            //{
+            //    model = model.Where(x => x.Name.Contains(keyword));
+            //}
             int totalRow = model.Count();
             var db = model.OrderByDescending(x=>x.CreatedDate).Skip((page - 1) * pageSize).Take(pageSize);
             return Json(new
